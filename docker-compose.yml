@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - ./target/spring-jdbc-leak-detector-1.0.0.jar:/opt/sonarqube/extensions/plugins/spring-jdbc-leak-detector-1.0.0.jar:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/api/system/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven 3.9.11
+Built-By: b.knauer
+Build-Jdk: 25
+Plugin-Name: JDBC Client Custom Rules
+Plugin-Class: com.example.sonar.jdbc.JdbcClientRulesPlugin
+Plugin-Description: Custom SonarQube rules for Spring JdbcClient to dete
+ ct resource leaks
+Plugin-ChildFirstClassLoader: false
+Plugin-Developers: 
+Plugin-Display-Version: 1.0.0
+Sonar-Version: 9.14
+Plugin-License: 
+SonarLint-Supported: true
+Plugin-Key: jdbcclientrules
+Plugin-BuildDate: 2026-01-13T11:01:04+0000
+Plugin-Version: 1.0.0
+

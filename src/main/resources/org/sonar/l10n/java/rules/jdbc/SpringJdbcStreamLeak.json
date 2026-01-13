@@ -1,0 +1,27 @@
+{
+  "title": "Spring JDBC stream methods must be used with try-with-resources",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant/Issue",
+    "constantCost": "2min"
+  },
+  "tags": [
+    "spring",
+    "jdbc",
+    "resource-leak",
+    "connection-pool",
+    "bug"
+  ],
+  "defaultSeverity": "Critical",
+  "ruleSpecification": "JDBC-STREAM-001",
+  "sqKey": "SpringJdbcStreamLeak",
+  "scope": "Main",
+  "quickfix": "unknown",
+  "code": {
+    "impacts": {
+      "RELIABILITY": "HIGH"
+    },
+    "attribute": "LOGICAL"
+  }
+}

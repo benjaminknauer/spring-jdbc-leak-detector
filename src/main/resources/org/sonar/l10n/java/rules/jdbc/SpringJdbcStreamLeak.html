@@ -1,0 +1,176 @@
+<h2>Why is this an issue?</h2>
+<p>
+The Spring Framework's <code>JdbcClient.MappedQuerySpec.stream()</code> and <code>JdbcTemplate.queryForStream()</code>
+methods return a <code>Stream</code> that holds an active database connection. This stream is lazily evaluated, meaning
+the connection remains open while the stream is being processed.
+</p>
+<p>
+If the stream is not explicitly closed after use, the database connection will not be returned to the connection pool,
+leading to <strong>connection leaks</strong>. Over time, this can exhaust the connection pool and cause application failures.
+</p>
+
+<h3>What is the potential impact?</h3>
+<ul>
+  <li><strong>Connection pool exhaustion:</strong> Active connections are not released, eventually blocking new database operations</li>
+  <li><strong>Application instability:</strong> Services may hang or crash when no connections are available</li>
+  <li><strong>Performance degradation:</strong> Limited connections impact application throughput</li>
+  <li><strong>Difficult debugging:</strong> Connection leaks are often hard to trace in production environments</li>
+</ul>
+
+<h2>How to fix it</h2>
+<p>
+Always use <strong>try-with-resources</strong> when working with streams from <code>JdbcClient.stream()</code> or
+<code>JdbcTemplate.queryForStream()</code>. The try-with-resources statement ensures that the stream is automatically
+closed when the block completes, releasing the database connection back to the pool.
+</p>
+
+<h3>Code examples</h3>
+
+<h4>Noncompliant code example</h4>
+<pre>
+// Stream is not closed - connection leak!
+Stream&lt;User&gt; users = jdbcClient.sql("SELECT * FROM users")
+                               .query(User.class)
+                               .stream();
+users.forEach(user -&gt; process(user));
+// Connection is still held and not returned to pool
+</pre>
+
+<pre>
+// Direct usage without proper resource management
+jdbcClient.sql("SELECT * FROM users")
+          .query(User.class)
+          .stream()
+          .forEach(user -&gt; process(user)); // Stream never closed
+</pre>
+
+<pre>
+// Returning unmanaged stream - caller must remember to close
+public Stream&lt;User&gt; getAllUsers() {
+    return jdbcClient.sql("SELECT * FROM users")
+                     .query(User.class)
+                     .stream(); // Risky - caller might forget to close
+}
+</pre>
+
+<h4>Compliant solution</h4>
+<pre>
+// Proper usage with try-with-resources
+try (Stream&lt;User&gt; users = jdbcClient.sql("SELECT * FROM users")
+                                    .query(User.class)
+                                    .stream()) {
+    users.forEach(user -&gt; process(user));
+} // Stream is automatically closed here, releasing the connection
+</pre>
+
+<pre>
+// If you need to process large datasets, consider pagination
+List&lt;User&gt; users = jdbcClient.sql("SELECT * FROM users LIMIT ? OFFSET ?")
+                             .param(limit)
+                             .param(offset)
+                             .query(User.class)
+                             .list(); // Eager loading - connection released immediately
+users.forEach(user -&gt; process(user));
+</pre>
+
+<pre>
+// For small result sets, use .list() instead of .stream()
+List&lt;User&gt; users = jdbcClient.sql("SELECT * FROM users WHERE active = true")
+                             .query(User.class)
+                             .list(); // Safer - no stream management needed
+users.forEach(user -&gt; process(user));
+</pre>
+
+<h2>Important Notes</h2>
+
+<h3>Why try-with-resources is required</h3>
+<p>
+This rule <strong>only accepts try-with-resources</strong> for closing streams. While manually calling <code>close()</code>
+in a <code>finally</code> block is technically safe, it is <strong>not recommended</strong> and will still raise an issue.
+</p>
+
+<h4>Manual close() in finally block</h4>
+<pre>
+// This is technically safe but will STILL RAISE AN ISSUE
+Stream&lt;User&gt; users = null;
+try {
+    users = jdbcClient.sql("SELECT * FROM users")
+                      .query(User.class)
+                      .stream();
+    users.forEach(user -&gt; process(user));
+} finally {
+    if (users != null) {
+        users.close(); // Manual closing works but is discouraged
+    }
+}
+</pre>
+
+<h4>Why try-with-resources is better</h4>
+<ul>
+  <li><strong>Automatic closing:</strong> The stream is closed automatically, even if exceptions occur</li>
+  <li><strong>Less error-prone:</strong> No need to remember null checks or handle close() exceptions</li>
+  <li><strong>Cleaner code:</strong> More concise and readable</li>
+  <li><strong>Standard since Java 7:</strong> Modern Java best practice</li>
+  <li><strong>Handles multiple resources:</strong> Can manage several resources in one statement</li>
+</ul>
+
+<h4>Suppressing false positives</h4>
+<p>
+If you have legitimate cases where manual <code>close()</code> is required (e.g., legacy code that cannot be refactored),
+you can suppress the issue using:
+</p>
+<pre>
+@SuppressWarnings("java:SpringJdbcStreamLeak")
+public void legacyMethod() {
+    Stream&lt;User&gt; users = null;
+    try {
+        users = jdbcClient.sql("SELECT * FROM users").query(User.class).stream();
+        // ... process stream
+    } finally {
+        if (users != null) users.close();
+    }
+}
+</pre>
+
+<h2>Resources</h2>
+<h3>Documentation</h3>
+<ul>
+  <li>
+    <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/simple/JdbcClient.MappedQuerySpec.html#stream()">
+      Spring Framework JavaDoc - JdbcClient.MappedQuerySpec.stream()
+    </a>
+  </li>
+  <li>
+    <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
+      Oracle Java Tutorial - The try-with-resources Statement
+    </a>
+  </li>
+</ul>
+
+<h3>Related issues</h3>
+<ul>
+  <li>
+    <a href="https://github.com/spring-projects/spring-framework/issues/27988">
+      Spring Framework Issue #27988 - JdbcTemplate.queryForStream() connection leak
+    </a>
+  </li>
+  <li>
+    <a href="https://rules.sonarsource.com/java/RSPEC-2095">
+      SonarQube Rule S2095 - Resources should be closed
+    </a>
+  </li>
+</ul>
+
+<h3>Articles</h3>
+<ul>
+  <li>
+    <a href="https://medium.com/@sharprazor.app/connection-leak-with-spring-jdbctemplate-93e7d6bb0704">
+      Connection leaks with Spring JdbcTemplate
+    </a>
+  </li>
+  <li>
+    <a href="https://mjchi7.github.io/posts/jdbctemplate-queryforstream-connection-leak/">
+      JdbcTemplate queryForStream Connection Leak
+    </a>
+  </li>
+</ul>
