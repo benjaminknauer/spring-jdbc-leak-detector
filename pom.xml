@@ -42,7 +42,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <sonar.version>13.4.3.4290</sonar.version>
         <sonar-java.version>8.20.0.40630</sonar-java.version>
     </properties>
@@ -153,7 +154,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                 </configuration>
             </plugin>
 
@@ -181,7 +182,7 @@
                                     <version>[3.6.0,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[11,)</version>
+                                    <version>[17,)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>

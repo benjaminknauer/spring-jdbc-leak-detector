@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Spring JDBC Leak Detector** is a SonarQube plugin that detects resource leaks when using Spring Framework's `JdbcClient.stream()` and `JdbcTemplate.queryForStream()`. These methods return streams that hold active database connections; forgetting to close them exhausts the connection pool.
 
+**Requirements:** Java 17+, Maven 3.6+. The project requires Java 17 due to SonarQube plugin API dependencies.
+
 ## Build Commands
 
 ```bash

@@ -1,6 +1,6 @@
 # Spring JDBC Leak Detector (SonarQube Plugin)
 
-[![Java](https://img.shields.io/badge/Java-11%2B-blue)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.java.net/)
 [![SonarQube](https://img.shields.io/badge/SonarQube-25.9.0.112764--community%2B-4E9BCD)](https://www.sonarqube.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -56,7 +56,7 @@ The easiest way to test the plugin locally is using Docker Compose.
 
 - Docker and Docker Compose
 - Maven 3.6+
-- Java 11+
+- Java 17+
 
 ### Step 1: Start SonarQube with Plugin
 
@@ -161,7 +161,7 @@ The rule automatically flags unclosed JDBC streams in your code.
 
 ## Requirements
 
-- Java 11+
+- Java 17+
 - Maven 3.6+
 - SonarQube 9.9+
 
