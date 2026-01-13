@@ -1,7 +1,7 @@
 # Spring JDBC Leak Detector (SonarQube Plugin)
 
 [![Java](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.java.net/)
-[![SonarQube](https://img.shields.io/badge/SonarQube-25.9.0.112764--community%2B-4E9BCD)](https://www.sonarqube.org/)
+[![SonarQube](https://img.shields.io/badge/SonarQube-10.4%2B-4E9BCD)](https://www.sonarqube.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Detects resource leaks when using Spring Framework's `JdbcClient.stream()` and `JdbcTemplate.queryForStream()`.
@@ -163,7 +163,9 @@ The rule automatically flags unclosed JDBC streams in your code.
 
 - Java 17+
 - Maven 3.6+
-- SonarQube 9.9+
+- SonarQube 10.4+ (Plugin API 13.0+)
+
+**Note:** Tested with SonarQube 25.9.0 Community Edition.
 
 ## SonarLint Support
 
