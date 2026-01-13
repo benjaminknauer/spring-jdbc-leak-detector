@@ -23,7 +23,6 @@ import java.util.List;
  * Each rule requires a {@code <RuleKey>.json} file for metadata and an optional
  * {@code <RuleKey>.html} file for documentation.</p>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see RulesList
  * @see org.sonar.api.server.rule.RulesDefinition
@@ -75,7 +74,6 @@ public class JdbcClientRulesDefinition implements RulesDefinition {
      * server analysis and SonarLint IDE integration. It registers all check classes
      * from {@link RulesList} with the repository.</p>
      *
-     * @author SonarQube JDBC Client Plugin Team
      * @since 1.0.0
      * @see CheckRegistrar
      */

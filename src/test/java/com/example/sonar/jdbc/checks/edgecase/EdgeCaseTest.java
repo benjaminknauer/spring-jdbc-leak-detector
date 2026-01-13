@@ -14,7 +14,6 @@ import org.sonar.java.checks.verifier.CheckVerifier;
  *   <li>Name-based heuristic fallback for JdbcTemplate detection</li>
  * </ul>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see SpringJdbcStreamLeakCheck
  */

@@ -20,7 +20,6 @@ import org.sonar.java.checks.verifier.CheckVerifier;
  *   <li>Optional.stream() and parallelStream()</li>
  * </ul>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see SpringJdbcStreamLeakCheck
  */

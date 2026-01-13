@@ -19,7 +19,6 @@ import java.util.List;
  *   <li>Add the class to the list in {@link #getChecks()}</li>
  * </ol>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see com.example.sonar.jdbc.checks.SpringJdbcStreamLeakCheck
  */

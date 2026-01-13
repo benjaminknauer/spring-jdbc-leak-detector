@@ -18,7 +18,6 @@ import org.sonar.java.checks.verifier.CheckVerifier;
  *   <li>Nested and multiple resource declarations</li>
  * </ul>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see SpringJdbcStreamLeakCheck
  */

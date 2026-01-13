@@ -19,7 +19,6 @@ import org.sonar.java.checks.verifier.CheckVerifier;
  *   <li>Complex method chains without proper resource management</li>
  * </ul>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see SpringJdbcStreamLeakCheck
  */

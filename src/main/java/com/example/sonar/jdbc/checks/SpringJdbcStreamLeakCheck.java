@@ -42,7 +42,6 @@ import java.util.List;
  * }  // Connection automatically closed
  * }</pre>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see org.springframework.jdbc.core.simple.JdbcClient
  * @see org.springframework.jdbc.core.JdbcTemplate#queryForStream

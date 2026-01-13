@@ -1,5 +1,9 @@
 # Build output
 target/
+dependency-reduced-pom.xml
+*.class
+*.jar
+!**/src/**/*.jar
 
 # IDE files
 .idea/
@@ -8,10 +12,27 @@ target/
 .project
 .settings/
 .vscode/
+*.swp
+*.swo
+*~
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
 
 # OS files
 .DS_Store
 Thumbs.db
+*.tmp
 
 # Log files
 *.log
+
+# Test coverage reports
+jacoco.exec
+coverage/
+
+# SonarQube
+.sonar/
+.scannerwork/

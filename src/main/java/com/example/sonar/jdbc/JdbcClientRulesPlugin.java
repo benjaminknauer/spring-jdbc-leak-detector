@@ -15,7 +15,6 @@ import org.sonar.api.Plugin;
  *   <li>{@link JdbcClientRulesDefinition.JdbcClientCheckRegistrar} - Check registrar for SonarLint</li>
  * </ul>
  *
- * @author SonarQube JDBC Client Plugin Team
  * @since 1.0.0
  * @see JdbcClientRulesDefinition
  * @see org.sonar.api.Plugin

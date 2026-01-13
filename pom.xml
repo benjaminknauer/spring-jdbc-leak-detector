@@ -11,11 +11,38 @@
 
     <name>Spring JDBC Leak Detector</name>
     <description>SonarQube plugin to detect resource leaks when using Spring JdbcClient and JdbcTemplate stream methods</description>
+    <url>https://github.com/bknauer/sonar-rule-jdbc-client</url>
+    <inceptionYear>2026</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>bknauer</id>
+            <name>Benjamin Knauer</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/bknauer/sonar-rule-jdbc-client.git</connection>
+        <developerConnection>scm:git:ssh://github.com:bknauer/sonar-rule-jdbc-client.git</developerConnection>
+        <url>https://github.com/bknauer/sonar-rule-jdbc-client</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/bknauer/sonar-rule-jdbc-client/issues</url>
+    </issueManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
         <sonar.version>13.4.3.4290</sonar.version>
         <sonar-java.version>8.20.0.40630</sonar-java.version>
     </properties>
@@ -55,14 +82,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.0</version>
+            <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
+            <version>3.27.3</version>
             <scope>test</scope>
         </dependency>
 
@@ -70,7 +97,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>6.1.0</version>
+            <version>6.2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -84,7 +111,7 @@
                 <version>1.23.0.740</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <pluginKey>springjdbcleakdetector</pluginKey>
+                    <pluginKey>spring-jdbc-leak-detector</pluginKey>
                     <pluginName>Spring JDBC Leak Detector</pluginName>
                     <pluginClass>com.example.sonar.jdbc.JdbcClientRulesPlugin</pluginClass>
                     <sonarLintSupported>true</sonarLintSupported>
@@ -124,10 +151,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
 
@@ -135,7 +161,53 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.5.2</version>
+            </plugin>
+
+            <!-- Maven Enforcer Plugin - Enforce build requirements -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.6.0,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[11,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- JaCoCo Plugin - Code Coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.13</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
