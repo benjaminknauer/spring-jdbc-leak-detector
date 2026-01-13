@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   sonarqube:
-    image: sonarqube:lts-community
+    image: sonarqube:25.9.0.112764-community
     container_name: sonarqube
     ports:
       - "9000:9000"

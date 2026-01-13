@@ -1,7 +1,7 @@
 # Spring JDBC Leak Detector (SonarQube Plugin)
 
 [![Java](https://img.shields.io/badge/Java-11%2B-blue)](https://openjdk.java.net/)
-[![SonarQube](https://img.shields.io/badge/SonarQube-9.9%2B-4E9BCD)](https://www.sonarqube.org/)
+[![SonarQube](https://img.shields.io/badge/SonarQube-25.9.0.112764--community%2B-4E9BCD)](https://www.sonarqube.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Detects resource leaks when using Spring Framework's `JdbcClient.stream()` and `JdbcTemplate.queryForStream()`.
@@ -67,7 +67,7 @@ The easiest way to test the plugin locally is using Docker Compose.
 
 Wait until you see `SonarQube is operational` in the logs.
 
-Open http://localhost:9000 (login: `admin` / `admin`, then change password to `test`).
+Open http://localhost:9000 (login: `admin` / `admin`, then change password to `MyTestPw123!`).
 
 ### Step 2: Activate the Rule (Required!)
 
@@ -83,7 +83,19 @@ Open http://localhost:9000 (login: `admin` / `admin`, then change password to `t
 
 To verify the plugin is loaded, search for `spring-jdbc-leak-detector` under **Rules**.
 
-### Step 3: Analyze a Project
+### Step 3: Generate a Token
+
+SonarQube requires a token for analysis:
+
+1. Click your profile (top right) → **My Account** → **Security**
+2. Generate a token (e.g., name: `local-analysis`)
+3. Copy the token and export it:
+
+```bash
+export SONAR_TOKEN=<your-token>
+```
+
+### Step 4: Analyze a Project
 
 ```bash
 # First, compile the project you want to analyze

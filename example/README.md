@@ -100,18 +100,21 @@ These tests verify that properly written code works with Spring's context:
 cd ..
 ./scripts/start-sonarqube.sh
 
-# 2. Activate the rule in SonarQube (http://localhost:9000)
-#    Quality Profiles -> Java -> Create (parent: Sonar way) -> Set as Default
-#    -> Activate More Rules -> Search "SpringJdbcStreamLeak"
+# 2. In SonarQube (http://localhost:9000):
+#    - Login (admin/admin), change password
+#    - Quality Profiles -> Java -> Create (parent: Sonar way) -> Set as Default
+#    - Activate More Rules -> Search "SpringJdbcStreamLeak" -> Activate
+#    - My Account -> Security -> Generate Token -> Copy it
 
-# 3. Compile and analyze the example project
+# 3. Export the token and analyze
+export SONAR_TOKEN=<your-token>
 cd example
 mvn compile
 cd ..
 ./scripts/analyze-project.sh ./example jdbc-leak-example
 ```
 
-**Important:** The custom rule must be activated in your Quality Profile before analysis!
+**Important:** You must create a custom Quality Profile and generate a token before analysis!
 
 ### Expected SonarQube Issues
 
